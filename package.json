@@ -15,6 +15,7 @@
     "playwright": "^1.22.1"
   },
   "scripts": {
-    "test": "yarn playwright test --config playwright.config.js"
+    "test": "yarn playwright test --config playwright.config.js",
+    "test:ci": "yarn test --workers 2"
   }
 }
