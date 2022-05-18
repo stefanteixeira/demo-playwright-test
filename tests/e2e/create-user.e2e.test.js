@@ -1,6 +1,8 @@
 const { test, expect } = require('@playwright/test')
 const { faker } = require('@faker-js/faker')
 
+const { createUser } = require('../lib/helpers')
+
 test.describe.parallel('Create user', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/cadastrarusuarios')
@@ -14,12 +16,7 @@ test.describe.parallel('Create user', () => {
   })
 
   test('creates an user successfully', async ({ page }) => {
-    await page.type('data-testid=nome', faker.name.findName())
-    await page.type('data-testid=email', faker.internet.email())
-    await page.type('data-testid=password', faker.internet.password())
-    await page.click('data-testid=checkbox')
-
-    await page.click('data-testid=cadastrar')
+    await createUser(page)
 
     await page.waitForNavigation()
     await expect(page).toHaveURL('/admin/home')
