@@ -1,0 +1,20 @@
+{
+  "name": "demo-playwright-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:stefanteixeira/demo-playwright-test.git",
+  "author": "Stefan Teixeira <stefanfk@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@faker-js/faker": "^6.3.1",
+    "@playwright/test": "^1.22.1",
+    "eslint": "^8.15.0",
+    "eslint-plugin-playwright": "^0.9.0",
+    "expect-playwright": "^0.8.0",
+    "playwright": "^1.22.1"
+  },
+  "scripts": {
+    "test": "yarn playwright test --config playwright.config.js"
+  }
+}
