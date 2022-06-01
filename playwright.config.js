@@ -6,24 +6,38 @@ expect.extend(matchers)
 process.env.PLAYWRIGHT_EXPERIMENTAL_FEATURES = '1'
 
 module.exports = {
-  // retries: 1,
+  retries: process.env.CI ? 1 : 0,
   reporter: [['list'], ['html', { open: 'never', outputFolder: 'reports' }]],
-  use: {
-    baseURL: 'https://front.serverest.dev',
-    browsers: ['chromium'],
-    viewport: { width: 1440, height: 900 },
-    screenshot: 'only-on-failure',
-    trace: 'retain-on-failure',
-    bypassCSP: true,
-    launchOptions: {
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-web-security',
-        '--disable-gpu',
-        '--disable-dev-shm-usage'
-      ],
-      headless: true
+  projects: [
+    {
+      name: 'api',
+      testMatch: '**/*.api.test.js',
+      use: {
+        baseURL: 'https://serverest.dev'
+      }
+    },
+    {
+      name: 'e2e',
+      outputDir: 'test-results',
+      testMatch: '**/*.e2e.test.js',
+      use: {
+        baseURL: 'https://front.serverest.dev',
+        browsers: ['chromium'],
+        viewport: { width: 1440, height: 900 },
+        screenshot: 'only-on-failure',
+        trace: 'retain-on-failure',
+        bypassCSP: true,
+        launchOptions: {
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-web-security',
+            '--disable-gpu',
+            '--disable-dev-shm-usage'
+          ],
+          headless: true
+        }
+      }
     }
-  }
+  ]
 }
