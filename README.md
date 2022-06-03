@@ -28,11 +28,22 @@ demo-playwright-test/
 
 **PS:** Note that different test levels are configured to have proper extensions (e.g: `*.api.test.js`).
 
+## Tips
+
+- Clean projects: `yarn clean`
+- Install dependencies: `yarn install`
+
 ## Running locally
 
 - Install dependencies: `yarn install`
 - Run API tests: `yarn test:api`
 - Run End-to-end tests: `yarn test:e2e`
+
+## Report
+
+- Generate report: `yarn allure:report`
+- Open Allure report: `yarn allure:open`
+- Open report in HTML: `yarn allure:html`  
 
 ## CI
 
