@@ -60,7 +60,7 @@ jobs:
 
       - name: Save screenshots and trace in case of failure
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: failure-screenshots-trace
           path: allure-results
@@ -70,12 +70,12 @@ jobs:
     needs: [api_tests, e2e_tests]
     runs-on: ubuntu-latest
     steps:
-      - name: Download allure report
-        uses: actions/download-artifact@master
+      - name: Download Allure report
+        uses: actions/download-artifact@v2
         with:
           name: allure-results
 
-      - name: Get allure history
+      - name: Get Allure history
         uses: actions/checkout@v2
         if: always()
         continue-on-error: true
@@ -83,8 +83,8 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Allure report action
-        uses: simple-elf/allure-report-action@master
+      - name: Generate Allure report
+        uses: simple-elf/allure-report-action@v1.6
         if: always()
         id: allure-report
         with:
@@ -94,7 +94,7 @@ jobs:
           allure_history: allure-history
           keep_reports: 5
 
-      - name: Deploy report to github pages
+      - name: Deploy report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
