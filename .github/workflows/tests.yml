@@ -72,7 +72,7 @@ jobs:
     needs: [api_tests, e2e_tests]
     runs-on: ubuntu-latest
     steps:
-      - name: Download allure report
+      - name: Download Allure report
         uses: actions/download-artifact@master
         with:
           name: allure-results
