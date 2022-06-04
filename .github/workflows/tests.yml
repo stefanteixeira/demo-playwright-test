@@ -62,7 +62,7 @@ jobs:
 
       - name: Save screenshots and trace in case of failure
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: failure-screenshots-trace
           path: allure-results
