@@ -1,11 +1,9 @@
 name: Tests
 
 on:
-  pull_request: null
   push:
-    branches:
-      - main
-  workflow_dispatch: null
+    branches: [main]
+  pull_request:
 
 jobs:
   api_tests:
@@ -94,7 +92,7 @@ jobs:
           gh_pages: gh-pages
           allure_report: allure-report
           allure_history: allure-history
-          keep_reports: 20
+          keep_reports: 5
 
       - name: Deploy report to github pages
         if: always()
@@ -103,3 +101,4 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
+          
