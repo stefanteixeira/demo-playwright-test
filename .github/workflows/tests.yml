@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Allure report
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v2
         with:
           name: allure-results
 
