@@ -8,6 +8,7 @@ reports/
 test-results/
 allure-report/
 allure-results/
+allure-history/ 
 
 # Runtime data
 pids
