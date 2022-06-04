@@ -1,20 +1,15 @@
-**1. Task Description:**
+### Description 
 
-- describe the task if necessary
+Describe the changes from the Pull Request.
 
-**2. How to test:**
+### How to test
 
-- `yarn test:<any>` - choose the necessary spec
+- `yarn install`
+- FIXME: Add steps describing how to test your changes manually
 
-**3. Comments:**
+### Checklist
 
-- to write a comment, if necessary, for a better understanding
-
-**4. Checklist review:**
-
-- [ ] Name of the branch follows the pattern:  title-of-feature
-- [ ] Name of the PR follows the pattern: [FEATURE] title-of-feature
-- [ ] The PR is signed by someone
-- [ ] The PR has the correct label
-- [ ] The build is green
-- [ ] The branch can be deleted
+- [ ] Branch name follows the pattern:  `feature-description`
+- [ ] PR branch is up-to-date with `main` (if not, rebase it)
+- [ ] Double-check the quality of [commit messages](http://chris.beams.io/posts/git-commit/)
+- [ ] PR has a descriptive name
