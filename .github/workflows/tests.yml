@@ -53,7 +53,7 @@ jobs:
 
       - name: Save Playwright Test HTML report
         if: always()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: test-report-e2e
           path: allure-results
