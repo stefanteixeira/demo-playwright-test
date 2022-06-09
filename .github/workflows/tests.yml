@@ -15,7 +15,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -41,7 +41,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -79,11 +79,12 @@ jobs:
           name: allure-results
 
       - name: Get Allure history
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         if: always()
         with:
           ref: gh-pages
           path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Allure report
         uses: simple-elf/allure-report-action@v1.6
@@ -96,7 +97,7 @@ jobs:
 
       - name: Deploy report to GitHub Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
         env:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
