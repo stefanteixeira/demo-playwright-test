@@ -21,15 +21,16 @@ jobs:
         uses: ./.github/actions/setup
       
       - name: Run tests
+        if: always()
         run: yarn test:api:ci
+        continue-on-error: true
         env:
           FORCE_COLOR: 2
 
-      - name: Save Playwright Test HTML report
-        if: always()
+      - name: Upload Allure report
         uses: actions/upload-artifact@v2
         with:
-          name: test-report-api
+          name: allure-results
           path: allure-results
 
   e2e_tests:
@@ -47,15 +48,16 @@ jobs:
         uses: ./.github/actions/setup
       
       - name: Run tests
+        if: always()
         run: yarn test:e2e:ci
+        continue-on-error: true        
         env:
           FORCE_COLOR: 2
 
-      - name: Save Playwright Test HTML report
-        if: always()
+      - name: Upload Allure report
         uses: actions/upload-artifact@v2
         with:
-          name: test-report-e2e
+          name: allure-results
           path: allure-results
 
       - name: Save screenshots and trace in case of failure
@@ -78,7 +80,6 @@ jobs:
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()
-        continue-on-error: true
         with:
           ref: gh-pages
           path: gh-pages
@@ -86,10 +87,8 @@ jobs:
       - name: Generate Allure report
         uses: simple-elf/allure-report-action@v1.6
         if: always()
-        id: allure-report
         with:
           allure_results: allure-results
-          gh_pages: gh-pages
           allure_report: allure-report
           allure_history: allure-history
           keep_reports: 5
@@ -101,4 +100,3 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
-          
