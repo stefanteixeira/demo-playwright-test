@@ -7,7 +7,7 @@ process.env.PLAYWRIGHT_EXPERIMENTAL_FEATURES = '1'
 
 module.exports = {
   retries: process.env.CI ? 1 : 0,
-  reporter: [['list'], ['html', { open: 'never', outputFolder: 'reports' }]],
+  reporter: [ ['allure-playwright'], ['html', { open: 'never', outputFolder: 'allure-report' }]],
   projects: [
     {
       name: 'api',

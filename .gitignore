@@ -1,10 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+reports/
+test-results/
+allure-report/
+allure-results/
+allure-history/ 
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dotenv environment variables file
+.env
+
+# Dependency directories
 node_modules/
 .idea/
+
+## Mac crap
 .DS_Store
 .vscode/
-*.swp
-yarn-error.log
-.env
-reports/
+
+## Others
 tmp/
-test-results/
+*.tmp
+*.swp

@@ -9,12 +9,18 @@
   "devDependencies": {
     "@faker-js/faker": "^6.3.1",
     "@playwright/test": "^1.22.1",
+    "allure-playwright": "^2.0.0-beta.16",
     "eslint": "^8.15.0",
     "eslint-plugin-playwright": "^0.9.0",
     "expect-playwright": "^0.8.0",
     "playwright": "^1.22.1"
   },
   "scripts": {
+    "allure:history": "mv -f allure-report/history allure-results/history && rm -r allure-report || true",
+    "allure:html": "npx playwright show-report allure-report",
+    "allure:open": "allure open ./allure-report",
+    "allure:report": "allure generate ./allure-results --clean -o allure-report",
+    "clear": "rm -r allure-results/ allure-report/ allure-history/ reports/ || true",
     "test:api": "yarn playwright test --project api --config playwright.config.js",
     "test:api:ci": "yarn test:api --workers 2",
     "test:e2e": "yarn playwright test --project e2e --config playwright.config.js",
