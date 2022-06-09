@@ -21,13 +21,12 @@ jobs:
         uses: ./.github/actions/setup
       
       - name: Run tests
-        if: always()
         run: yarn test:api:ci
-        continue-on-error: true
         env:
           FORCE_COLOR: 2
 
       - name: Upload Allure report
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: allure-results
@@ -48,13 +47,12 @@ jobs:
         uses: ./.github/actions/setup
       
       - name: Run tests
-        if: always()
         run: yarn test:e2e:ci
-        continue-on-error: true        
         env:
           FORCE_COLOR: 2
 
       - name: Upload Allure report
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: allure-results
@@ -69,6 +67,7 @@ jobs:
   
   generate_report:
     name: Generate report
+    if: always()
     needs: [api_tests, e2e_tests]
     runs-on: ubuntu-latest
     steps:
