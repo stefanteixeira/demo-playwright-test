@@ -15,7 +15,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -26,8 +26,7 @@ jobs:
           FORCE_COLOR: 2
 
       - name: Upload Allure report
-        if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: allure-results
           path: allure-results
@@ -41,7 +40,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -51,16 +50,9 @@ jobs:
         env:
           FORCE_COLOR: 2
 
-      - name: Upload Allure report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: allure-results
-          path: allure-results
-
       - name: Save screenshots and trace in case of failure
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: failure-screenshots-trace
           path: allure-results
@@ -70,24 +62,21 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     needs: [api_tests, e2e_tests]
-    permissions:
-      contents: write
     steps:
       - name: Download Allure report
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: allure-results
 
       - name: Get Allure history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         if: always()
         with:
           ref: gh-pages
           path: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate Allure report
-        uses: simple-elf/allure-report-action@v1.6
+      - name: Allure report gh-actions
+        uses: simple-elf/allure-report-action@master
         if: always()
         with:
           allure_results: allure-results
@@ -97,8 +86,8 @@ jobs:
 
       - name: Deploy report to GitHub Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
