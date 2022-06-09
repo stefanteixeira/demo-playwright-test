@@ -13,7 +13,7 @@ module.exports = {
       name: 'api',
       testMatch: '**/*.api.test.js',
       use: {
-        baseURL: 'https://serverest.dev'
+        baseURL: 'http://localhost:3000'
       }
     },
     {
