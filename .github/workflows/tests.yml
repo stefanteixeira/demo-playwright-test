@@ -20,6 +20,9 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       
+      - name: Start ServeRest locally
+        run: docker run -d -p 3000:3000 paulogoncalvesbh/serverest
+
       - name: Run tests
         run: yarn test:api:ci
         env:
