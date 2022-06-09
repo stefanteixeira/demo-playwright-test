@@ -36,6 +36,7 @@ demo-playwright-test/
 ## Running locally
 
 - Install dependencies: `yarn install`
+- Start Serverest server: `npx serverest`
 - Run API tests: `yarn test:api`
 - Run End-to-end tests: `yarn test:e2e`
 
