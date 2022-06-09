@@ -67,9 +67,11 @@ jobs:
   
   generate_report:
     name: Generate report
+    runs-on: ubuntu-latest
     if: always()
     needs: [api_tests, e2e_tests]
-    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download Allure report
         uses: actions/download-artifact@v2
