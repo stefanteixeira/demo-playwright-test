@@ -7,13 +7,13 @@ process.env.PLAYWRIGHT_EXPERIMENTAL_FEATURES = '1'
 
 module.exports = {
   retries: process.env.CI ? 1 : 0,
-  reporter: [['list'], ['html', { open: 'never', outputFolder: 'reports' }]],
+  reporter: [ ['allure-playwright'], ['list'], ['html', { open: 'never', outputFolder: 'reports' }]],
   projects: [
     {
       name: 'api',
       testMatch: '**/*.api.test.js',
       use: {
-        baseURL: 'https://serverest.dev'
+        baseURL: 'http://localhost:3000'
       }
     },
     {

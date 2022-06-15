@@ -15,22 +15,25 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup
         uses: ./.github/actions/setup
       
+      - name: Start ServeRest container
+        run: yarn api:start
+
       - name: Run tests
         run: yarn test:api:ci
         env:
           FORCE_COLOR: 2
 
-      - name: Save Playwright Test HTML report
+      - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: test-report-api
-          path: reports/index.html
+          name: allure-results
+          path: allure-results
 
   e2e_tests:
     name: End-to-end tests
@@ -41,7 +44,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -51,12 +54,12 @@ jobs:
         env:
           FORCE_COLOR: 2
 
-      - name: Save Playwright Test HTML report
+      - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: test-report-e2e
-          path: reports/index.html
+          name: allure-results
+          path: allure-results
 
       - name: Save screenshots and trace in case of failure
         if: failure()
