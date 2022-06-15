@@ -1,14 +1,6 @@
 const { test, expect } = require('@playwright/test')
-const { faker } = require('@faker-js/faker')
 
-const { createUser } = require('../../lib/helpers')
-
-const product = {
-  name: `${faker.commerce.product()} SKU: ${faker.finance.account(8)}`,
-  price: faker.commerce.price(100, 200, 0),
-  description: faker.commerce.productDescription(10),
-  quantity: faker.random.numeric(2)
-}
+const { createUser, getProductBody } = require('../../lib/helpers')
 
 test.describe('Create product', () => {
   test.beforeEach(async ({ page }) => {
@@ -20,19 +12,20 @@ test.describe('Create product', () => {
   })
 
   test('creates a product successfully', async ({ page }) => {
+    const product = getProductBody()
     await page.click('data-testid=cadastrarProdutos') 
 
-    await page.type('data-testid=nome', product.name)
-    await page.type('data-testid=preco', product.price)
-    await page.type('data-testid=descricao', product.description)
-    await page.type('data-testid=quantity', product.quantity)
+    await page.type('data-testid=nome', product.nome)
+    await page.type('data-testid=preco', product.preco)
+    await page.type('data-testid=descricao', product.descricao)
+    await page.type('data-testid=quantity', product.quantidade)
 
     await page.click('data-testid=cadastarProdutos')
 
     await page.waitForNavigation()
     await expect(page).toHaveURL('/admin/listarprodutos')
 
-    const cellLocator = page.locator('tr').filter({ hasText: product.name })
+    const cellLocator = page.locator('tr').filter({ hasText: product.nome })
 
     for (const value of Object.values(product)) {
       await expect(cellLocator.filter({ hasText: value })).toBeVisible()
