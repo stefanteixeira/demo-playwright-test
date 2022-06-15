@@ -1,7 +1,6 @@
 const { test, expect } = require('@playwright/test')
-const { faker } = require('@faker-js/faker')
 
-const { createUser } = require('../lib/helpers')
+const { createUser } = require('../../lib/helpers')
 
 test.describe.parallel('Create user', () => {
   test.beforeEach(async ({ page }) => {
