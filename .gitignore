@@ -4,11 +4,11 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-reports/
-test-results/
 allure-report/
 allure-results/
 allure-history/ 
+reports/
+test-results/
 
 # Runtime data
 pids

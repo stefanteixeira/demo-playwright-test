@@ -20,8 +20,8 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       
-      - name: Start ServeRest locally
-        run: docker run -d -p 3000:3000 paulogoncalvesbh/serverest
+      - name: Start ServeRest container
+        run: yarn api:start
 
       - name: Run tests
         run: yarn test:api:ci
@@ -66,44 +66,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: failure-screenshots-trace
-          path: allure-results
-  
-  generate_report:
-    name: Generate report
-    runs-on: ubuntu-latest
-    if: always()
-    needs: [api_tests, e2e_tests]
-    permissions:
-      contents: write
-    steps:
-      - name: Download Allure report
-        uses: actions/download-artifact@v2
-        with:
-          name: allure-results
-
-      - name: Get Allure history
-        uses: actions/checkout@v3
-        if: always()
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          path: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate Allure report
-        uses: simple-elf/allure-report-action@v1.6
-        if: always()
-        with:
-          allure_results: allure-results
-          allure_report: allure-report
-          allure_history: allure-history
-          keep_reports: 5
-
-#TODO: Be able to deploy to gh-pages
-
-      # - name: Deploy report to GitHub Pages
-      #   if: always()
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_branch: gh-pages
-      #     publish_dir: allure-history
+          path: test-results
