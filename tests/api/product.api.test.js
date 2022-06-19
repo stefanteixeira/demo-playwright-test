@@ -1,16 +1,6 @@
 const { test, expect } = require('@playwright/test')
 
-const { getAuthToken, getProductBody } = require('../../lib/helpers')
-
-const getProductId = async (request, authorization, body) => {
-  const response = await request.post('/produtos', {
-    data: body,
-    headers: { 'Authorization': authorization }
-  })
-  const responseBody = JSON.parse(await response.text())
-
-  return responseBody._id
-}
+const { getAuthToken, getProductBody, getProductId } = require('../../lib/helpers')
 
 test.describe.parallel('Product API', () => {
   let authorization
