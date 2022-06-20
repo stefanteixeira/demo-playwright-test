@@ -11,6 +11,7 @@ test.describe.parallel('Carts API', () => {
   
   test('retrieves the list of carts', async ({ request }) => {
     const response = await request.get('/carrinhos')
+    
     await expect(response).toBeOK()
   })
 
@@ -25,6 +26,7 @@ test.describe.parallel('Carts API', () => {
     await expect(response).toBeOK()
 
     const responseBody = JSON.parse(await response.text())
+    
     await expect(responseBody.message).toBe('Cadastro realizado com sucesso')
   })
 
@@ -33,6 +35,7 @@ test.describe.parallel('Carts API', () => {
     const _id = await getCartId(request, authorization, getCartBody(idProduct))
     
     const response = await request.get(`/carrinhos/${_id}`)
+    
     await expect(response).toBeOK()
   })
 })
