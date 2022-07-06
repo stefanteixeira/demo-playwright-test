@@ -16,13 +16,13 @@ test.describe.parallel('User API', () => {
     await expect(response).toBeOK()
   })
 
-  test('creates an user successfully', async ({ request }) => {
+  test('creates a user successfully', async ({ request }) => {
     const response = await request.post('/usuarios', { data: getUserBody() })
 
     await expect(response).toBeOK()
   })
 
-  test('fails to create an user if it already exists', async ({ request }) => {
+  test('fails to create a user if it already exists', async ({ request }) => {
     const body = getUserBody()
     await request.post('/usuarios', { data: body })
 
@@ -39,9 +39,34 @@ test.describe.parallel('User API', () => {
     await expect(response).toBeOK()
   })
 
-  test('fails to retrieve an user if it does not exist', async ({ request }) => {
+  test('fails to retrieve a user if it does not exist', async ({ request }) => {
     const response = await request.get('/usuarios/nonExistingId')
 
     await expect(response).not.toBeOK()
+  })
+
+  test('deletes a user successfully', async ({ request }) => {
+    const id = await getUserId(request, getUserBody())
+
+    const response = await request.delete(`/usuarios/${id}`)
+
+    await expect(response).toBeOK()
+  })
+
+  test('edits a user successfully', async ({ request }) => {
+    const id = await getUserId(request, getUserBody())
+    const editBody = getUserBody()
+
+    const response = await request.put(`/usuarios/${id}`, { data: editBody })
+
+    await expect(response.status()).toEqual(200)
+  })
+
+  test('creates a user by editing a non-existing one', async ({ request }) => {
+    const editBody = getUserBody()
+
+    const response = await request.put('/usuarios/nonExistingId', { data: editBody })
+
+    await expect(response.status()).toEqual(201)
   })
 })
