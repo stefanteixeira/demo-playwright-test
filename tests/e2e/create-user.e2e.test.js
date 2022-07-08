@@ -14,7 +14,7 @@ test.describe.parallel('Create user', () => {
     await expect(errors).toHaveCount(3)
   })
 
-  test('creates an user successfully', async ({ page }) => {
+  test('creates a user successfully', async ({ page }) => {
     await createUser(page)
 
     await page.waitForNavigation()
