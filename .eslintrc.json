@@ -29,6 +29,7 @@
     "comma-spacing": ["error", { "before": false, "after": true }],
     "arrow-spacing": ["error", { "before": true, "after": true }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
-    "no-template-curly-in-string": "off"
+    "no-template-curly-in-string": "off",
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true }]
   }
 }
