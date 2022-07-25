@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test')
 
 const { createUser } = require('../../lib/helpers')
+const { testA11y } = require('../../lib/a11y')
 
 test.describe.parallel('Create user', () => {
   test.beforeEach(async ({ page }) => {
@@ -19,5 +20,10 @@ test.describe.parallel('Create user', () => {
 
     await page.waitForNavigation()
     await expect(page).toHaveURL('/admin/home')
+  })
+
+  // eslint-disable-next-line playwright/no-skipped-test
+  test.skip('has no a11y issues in the form', async ({ page }) => {
+    await testA11y(page, '.form')
   })
 })

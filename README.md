@@ -31,6 +31,8 @@ demo-playwright-test/
  │         ├── login.api.test.js            # API tests
  │    ├── e2e
  │         ├── create-user.e2e.test.js      # End-to-end tests
+ │    ├── visual
+ │         ├── login.visual.test.js         # Visual regression tests
  ├── playwright.config.js                   # Playwright configuration file
 ```
 
@@ -42,6 +44,15 @@ demo-playwright-test/
 - Start Serverest server: `yarn api:start`
 - Run API tests: `yarn test:api`
 - Run End-to-end tests: `yarn test:e2e`
+- Run Visual Regression tests: `yarn test:visual` (you will need a Happo account and `HAPPO_API_KEY`/`HAPPO_API_SECRET` environment variables set)
+
+### Debugging
+
+To run Playwright in debug mode, pass the `PWDEBUG=1` environment variable in the command, for example: `PWDEBUG=1 yarn test:e2e`
+
+When a test fails, the project is configured to save screenshots and a trace file, inside `test-reports` folder. You can run [Playwright's Trace Viewer](https://playwright.dev/docs/trace-viewer) with `show-trace` command: `yarn playwright show-trace test-results/some-test-path/trace.zip`
+
+Please refer to [Playwright's Debugging docs](https://playwright.dev/docs/debug) for further information on debugging features.
 
 ### Tips
 
@@ -59,3 +70,9 @@ Test reports can be generated with [Allure reports](https://github.com/allure-fr
 ## CI
 
 The project uses [GitHub Actions](https://docs.github.com/en/actions) and tests are run automatically on PRs and on merge to `main` branch.
+
+---
+
+## Contributing
+
+We have a [Kanban board](https://github.com/stefanteixeira/demo-playwright-test/projects/1) with a backlog of tasks to work on. If you are interested in contributing to the project, please reach out to @stefanteixeira to become a collaborator and get a task assigned to you.
