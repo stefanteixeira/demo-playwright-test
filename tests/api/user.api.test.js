@@ -71,7 +71,6 @@ test.describe.parallel('User API', () => {
   })
 
   test('fails to delete a user in case it has a cart', async ({ request }) => {
- 
     const user = getUserBody()
 
     const responseUserCreation = await request.post('/usuarios', { data:  user })
@@ -92,9 +91,7 @@ test.describe.parallel('User API', () => {
 
   })
 
-  test.only('fails to edit a user with an existing email', async ({ request }) => {
-
-    
+  test('fails to edit a user with an existing email', async ({ request }) => {
     const user = getUserBody()
 
     await getUserId(request, user)
