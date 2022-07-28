@@ -33,13 +33,13 @@ jobs:
         env:
           FORCE_COLOR: 2
 
-      # - name: Upload Allure report
-      #   if: always()
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: allure-results-api
-      #     path: allure-results
-      #     retention-days: 10
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-results-api
+          path: allure-results
+          retention-days: 10
 
   e2e_tests:
     name: End-to-end tests
@@ -60,13 +60,13 @@ jobs:
         env:
           FORCE_COLOR: 2
 
-      # - name: Upload Allure report
-      #   if: always()
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: allure-results-e2e
-      #     path: allure-results
-      #     retention-days: 10
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-results-e2e
+          path: allure-results
+          retention-days: 10
 
       - name: Save screenshots and trace in case of failure
         if: failure()
@@ -78,31 +78,23 @@ jobs:
 
   deploy_report:
     name: Deploy report to GH Pages
-    # needs: [api_tests, e2e_tests]
+    needs: [api_tests, e2e_tests]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # - name: Download Allure reports from API tests
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: allure-results-api
-      #     path: allure-results
+      - name: Download Allure reports from API tests
+        uses: actions/download-artifact@v3
+        with:
+          name: allure-results-api
+          path: allure-results
 
-      # - name: Download Allure reports from End-to-end tests
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: allure-results-e2e
-      #     path: allure-results
-
-      - uses: actions/checkout@v3
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Run tests
-        run: yarn test:e2e:ci
-        env:
-          FORCE_COLOR: 2
+      - name: Download Allure reports from End-to-end tests
+        uses: actions/download-artifact@v3
+        with:
+          name: allure-results-e2e
+          path: allure-results
 
       - name: Get Allure history
         uses: actions/checkout@v3
@@ -125,6 +117,13 @@ jobs:
           allure_report: allure-report
           allure_history: allure-history
           keep_reports: 10
+
+      - name: Delete unused artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: |
+            allure-results-api
+            allure-results-e2e
 
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
