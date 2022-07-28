@@ -70,3 +70,68 @@ jobs:
           name: failure-screenshots-trace
           path: test-results
           retention-days: 10
+
+  deploy_report:
+    name: Deploy report to GH Pages
+    needs: [api_tests, e2e_tests]
+    if: always() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download Allure reports from API tests
+        uses: actions/download-artifact@v3
+        with:
+          name: allure-results-api
+          path: allure-results
+
+      - name: Download Allure reports from End-to-end tests
+        uses: actions/download-artifact@v3
+        with:
+          name: allure-results-e2e
+          path: allure-results
+
+      - name: Get Allure history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: github-pages
+          path: github-pages
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
+
+      - name: Allure report gh-actions
+        uses: simple-elf/allure-report-action@v1.6
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          gh_pages: github-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 10
+
+      - name: Delete unused artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: |
+            allure-results-api
+            allure-results-e2e
+            failure-screenshots-trace
+          failOnError: false
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: allure-history
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        id: deployment
