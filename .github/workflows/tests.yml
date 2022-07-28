@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
 jobs:
   api_tests:
     name: API tests
@@ -75,10 +80,6 @@ jobs:
     name: Deploy report to GH Pages
     needs: [api_tests, e2e_tests]
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -123,7 +124,7 @@ jobs:
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: allure-report
+          path: '.'
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
