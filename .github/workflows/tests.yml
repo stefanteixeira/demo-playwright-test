@@ -33,13 +33,13 @@ jobs:
         env:
           FORCE_COLOR: 2
 
-      - name: Upload Allure report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: allure-results-api
-          path: allure-results
-          retention-days: 10
+      # - name: Upload Allure report
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: allure-results-api
+      #     path: allure-results
+      #     retention-days: 10
 
   e2e_tests:
     name: End-to-end tests
@@ -60,13 +60,13 @@ jobs:
         env:
           FORCE_COLOR: 2
 
-      - name: Upload Allure report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: allure-results-e2e
-          path: allure-results
-          retention-days: 10
+      # - name: Upload Allure report
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: allure-results-e2e
+      #     path: allure-results
+      #     retention-days: 10
 
       - name: Save screenshots and trace in case of failure
         if: failure()
