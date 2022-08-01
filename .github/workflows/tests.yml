@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel previous runs
+        if: github.ref != 'refs/heads/main'
         uses: styfle/cancel-workflow-action@0.9.0
         with:
           access_token: ${{ github.token }}
@@ -41,6 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel previous runs
+        if: github.ref != 'refs/heads/main'
         uses: styfle/cancel-workflow-action@0.9.0
         with:
           access_token: ${{ github.token }}
@@ -67,19 +69,61 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: failure-screenshots-trace
+          name: failure-screenshots-trace-e2e
+          path: test-results
+          retention-days: 10
+
+  visual_tests:
+    name: Visual Regression tests
+    runs-on: ubuntu-latest
+    env:
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+    steps:
+      - name: Cancel previous runs
+        if: github.ref != 'refs/heads/main'
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ github.token }}
+
+      - uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+      
+      - name: Run tests
+        run: yarn test:visual:ci
+        env:
+          FORCE_COLOR: 2
+
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-results-visual
+          path: allure-results
+          retention-days: 10
+
+      - name: Save screenshots and trace in case of failure
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: failure-screenshots-trace-visual
           path: test-results
           retention-days: 10
 
   deploy_report:
     name: Deploy report to GH Pages
-    needs: [api_tests, e2e_tests]
+    needs: [api_tests, e2e_tests, visual_tests]
     if: always() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pages: write
       id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -94,6 +138,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: allure-results-e2e
+          path: allure-results
+
+      - name: Download Allure reports from Visual Regression tests
+        uses: actions/download-artifact@v3
+        with:
+          name: allure-results-visual
           path: allure-results
 
       - name: Get Allure history
@@ -124,7 +174,9 @@ jobs:
           name: |
             allure-results-api
             allure-results-e2e
-            failure-screenshots-trace
+            allure-results-visual
+            failure-screenshots-trace-e2e
+            failure-screenshots-trace-visual
           failOnError: false
 
       - name: Upload pages artifact

@@ -38,6 +38,13 @@ module.exports = {
           headless: true
         }
       }
-    }
+    },
+    {
+      name: 'visual',
+      testMatch: '**/*.visual.test.js',
+      use: {
+        baseURL: 'https://front.serverest.dev'
+      }
+    },
   ]
 }

@@ -11,9 +11,13 @@
     "@playwright/test": "^1.22.1",
     "allure-commandline": "^2.17.2",
     "allure-playwright": "^2.0.0-beta.16",
+    "axe-playwright": "^1.1.11",
     "eslint": "^8.15.0",
     "eslint-plugin-playwright": "^0.9.0",
     "expect-playwright": "^0.8.0",
+    "happo-e2e": "^1.2.0",
+    "happo-playwright": "^1.1.0",
+    "happo.io": "^7.2.1",
     "playwright": "^1.22.1",
     "wait-on": "^6.0.1"
   },
@@ -26,6 +30,8 @@
     "test:api:ci:wait": "wait-on -i 1000 -t 30000 -l http://localhost:3000",
     "test:api:ci": "yarn test:api:ci:wait && yarn test:api --workers 2",
     "test:e2e": "yarn playwright test --project e2e --config playwright.config.js",
-    "test:e2e:ci": "yarn test:e2e --workers 2"
+    "test:e2e:ci": "yarn test:e2e --workers 2",
+    "test:visual": "HAPPO_DOWNLOAD_ALL=true yarn happo-e2e -- -- yarn playwright test --project visual --config playwright.config.js",
+    "test:visual:ci": "yarn test:visual --workers 2"
   }
 }
