@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test')
+const { POST_SUCESS } = require('serverest/src/utils/constants')
 
 const { getAuthToken, getProductBody, getProductId, getCartBody, getCartId } = require('../../lib/helpers')
 
@@ -32,12 +33,10 @@ test.describe.parallel('Carts API', () => {
       data: getCartBody(idProduct),
       headers: { 'Authorization': authorization }
     })
-
-    await expect(response).toBeOK()
-
     const responseBody = JSON.parse(await response.text())
 
-    await expect(responseBody.message).toBe('Cadastro realizado com sucesso')
+    await expect(response).toBeOK()
+    expect(responseBody.message).toEqual(POST_SUCESS)
   })
 
   test('delete an order successfully', async ({ request }) => {
