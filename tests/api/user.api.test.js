@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test')
 
-const { getUserBody } = require('../../lib/helpers')
+const { getUserBody, getProductId, getCartId, getCartBody, getProductBody } = require('../../lib/helpers')
 
 const getUserId = async (request, body) => {
   const response = await request.post('/usuarios', { data: body })
@@ -68,5 +68,40 @@ test.describe.parallel('User API', () => {
     const response = await request.put('/usuarios/nonExistingId', { data: editBody })
 
     await expect(response.status()).toEqual(201)
+  })
+
+  test('fails to delete a user in case it has a cart', async ({ request }) => {
+    const user = getUserBody()
+
+    const responseUserCreation = await request.post('/usuarios', { data:  user })
+
+    const userId = JSON.parse(await responseUserCreation.text())._id
+
+    const responseUserToken = await request.post('/login', { data: { email: user.email, password: user.password} })
+
+    const authorization = JSON.parse(await responseUserToken.text()).authorization
+
+    const productId = await getProductId(request, authorization, getProductBody())
+    
+    await getCartId(request, authorization, getCartBody(productId))
+
+    const response = await request.delete(`/usuarios/${userId}`)
+
+    await expect(response.status()).toBe(400)
+
+  })
+
+  test('fails to edit a user with an existing email', async ({ request }) => {
+    const user = getUserBody()
+
+    await getUserId(request, user)
+
+    const user2 = getUserBody()
+
+    const userId = await getUserId(request, user2)
+   
+    const response = await request.put(`/usuarios/${userId}`, { data: { email : user.email} })
+
+    await expect(response.status()).toBe(400)
   })
 })
