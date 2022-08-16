@@ -5,7 +5,7 @@ const { getUserBody } = require('../../lib/helpers')
 
 const getUserId = async (request, body) => {
   const response = await request.post('/usuarios', { data: body })
-  const responseBody = JSON.parse(await response.text())
+  const responseBody = await response.json()
 
   return responseBody._id
 }
