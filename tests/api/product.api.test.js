@@ -1,7 +1,14 @@
 const { test, expect } = require('@playwright/test')
 const { StatusCodes } = require('http-status-codes')
-const { POST_SUCESS, DELETE_SUCESS, PUT_SUCESS, TOKEN_INVALID, NOME_JA_USADO } = require('serverest/src/utils/constants')
-const { getAuthToken, getProductBody, getProductId } = require('../../lib/helpers')
+const {
+  POST_SUCESS,
+  DELETE_SUCESS,
+  PUT_SUCESS,
+  TOKEN_INVALID,
+  NOME_JA_USADO,
+  IDPRODUTO_INVALIDO
+} = require('serverest/src/utils/constants')
+const { getAuthToken, getProductBody, getProductId, getUserBody } = require('../../lib/helpers')
 
 test.describe.parallel('Product API', () => {
   let authorization
@@ -14,6 +21,21 @@ test.describe.parallel('Product API', () => {
     const response = await request.get('/produtos')
 
     expect(response.status()).toEqual(StatusCodes.OK)
+  })
+
+  test('returns an empty list when a product does not exist', async ({ request }) => {
+    const name = getProductBody().nome
+
+    const response = await request.get('/produtos', {
+      params: {
+        nome: name
+      }
+    })
+
+    const product = await response.json()
+
+    expect(response.status()).toEqual(StatusCodes.OK)
+    expect(product.produtos).toHaveLength(0)
   })
 
   test('creates a product successfully', async ({ request }) => {
@@ -32,6 +54,16 @@ test.describe.parallel('Product API', () => {
     const response = await request.get(`/produtos/${_id}`)
 
     expect(response.status()).toEqual(StatusCodes.OK)
+  })
+
+  test('fails to retrieve a product when it does not exist', async ({ request }) => {
+    const _id = getUserBody().password
+    const response = await request.get(`/produtos/${_id}`)
+
+    const product = await response.json()
+
+    expect(response.status()).toEqual(StatusCodes.BAD_REQUEST)
+    expect(product.message).toEqual(IDPRODUTO_INVALIDO)
   })
 
   test('deletes a product successfully', async ({ request }) => {
