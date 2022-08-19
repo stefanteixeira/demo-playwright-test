@@ -20,14 +20,14 @@
     "happo.io": "^7.2.1",
     "http-status-codes": "^2.2.0",
     "playwright": "^1.22.1",
-    "serverest": "2.25.3",
+    "serverest": "2.26.2",
     "wait-on": "^6.0.1"
   },
   "scripts": {
     "allure:generate": "yarn allure generate ./allure-results --clean -o allure-report",
     "allure:history": "mv -f allure-report/history allure-results/history && rm -r allure-report || true",
     "allure:open": "npx playwright show-report allure-report",
-    "api:start": "docker run -d -p 3000:3000 --name serverest paulogoncalvesbh/serverest:2.25.3",
+    "api:start": "docker run -d -p 3000:3000 --name serverest paulogoncalvesbh/serverest:2.26.2",
     "test:api": "yarn playwright test --project api --config playwright.config.js",
     "test:api:ci:wait": "wait-on -i 1000 -t 30000 -l http://localhost:3000",
     "test:api:ci": "yarn test:api:ci:wait && yarn test:api --workers 2",

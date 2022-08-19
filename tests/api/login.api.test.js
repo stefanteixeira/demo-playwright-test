@@ -1,6 +1,9 @@
 const { test, expect } = require('@playwright/test')
 const { StatusCodes } = require('http-status-codes')
-const { LOGIN_SUCESS, LOGIN_FAIL } = require('serverest/src/utils/constants')
+const { 
+  LOGIN_SUCCESS, 
+  LOGIN_FAIL 
+} = require('serverest/src/utils/constants')
 const { getUserBody } = require('../../lib/helpers')
 
 test.describe.parallel('Login API', () => {
@@ -22,7 +25,7 @@ test.describe.parallel('Login API', () => {
     const login = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(login.message).toEqual(LOGIN_SUCESS)
+    expect(login.message).toEqual(LOGIN_SUCCESS)
   })
 
   test('fails to login if user email is invalid', async ({ request }) => {
