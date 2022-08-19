@@ -1,12 +1,12 @@
 const { test, expect } = require('@playwright/test')
 const { StatusCodes } = require('http-status-codes')
 const {
-  POST_SUCESS,
-  DELETE_SUCESS,
-  PUT_SUCESS,
-  TOKEN_INVALID,
-  NOME_JA_USADO,
-  IDPRODUTO_INVALIDO
+  POST_SUCCESS,
+  DELETE_SUCCESS,
+  PUT_SUCCESS,
+  INVALID_TOKEN,
+  NAME_ALREADY_USED,
+  PRODUCT_NOT_FOUND
 } = require('serverest/src/utils/constants')
 const { getAuthToken, getProductBody, getProductId, getUserBody } = require('../../lib/helpers')
 
@@ -46,7 +46,7 @@ test.describe.parallel('Product API', () => {
     const product = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.CREATED)
-    expect(product.message).toEqual(POST_SUCESS)
+    expect(product.message).toEqual(POST_SUCCESS)
   })
 
   test('retrieves an existing product by its id', async ({ request }) => {
@@ -63,7 +63,7 @@ test.describe.parallel('Product API', () => {
     const product = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.BAD_REQUEST)
-    expect(product.message).toEqual(IDPRODUTO_INVALIDO)
+    expect(product.message).toEqual(PRODUCT_NOT_FOUND)
   })
 
   test('deletes a product successfully', async ({ request }) => {
@@ -74,7 +74,7 @@ test.describe.parallel('Product API', () => {
     const product = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(product.message).toEqual(DELETE_SUCESS)
+    expect(product.message).toEqual(DELETE_SUCCESS)
   })
 
   test('fails to delete a product when access token is not provided', async ({ request }) => {
@@ -84,7 +84,7 @@ test.describe.parallel('Product API', () => {
     const product = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.UNAUTHORIZED)
-    expect(product.message).toEqual(TOKEN_INVALID)
+    expect(product.message).toEqual(INVALID_TOKEN)
   })
 
   test('edits a product successfully', async ({ request }) => {
@@ -98,7 +98,7 @@ test.describe.parallel('Product API', () => {
     const product = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(product.message).toEqual(PUT_SUCESS)
+    expect(product.message).toEqual(PUT_SUCCESS)
   })
 
   test('fails to edit a product if other product with the same name already exists', async ({ request }) => {
@@ -120,6 +120,6 @@ test.describe.parallel('Product API', () => {
     const productJson = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.BAD_REQUEST)
-    expect(productJson.message).toEqual(NOME_JA_USADO)
+    expect(productJson.message).toEqual(NAME_ALREADY_USED)
   })
 })

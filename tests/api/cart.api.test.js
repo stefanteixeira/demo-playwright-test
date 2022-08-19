@@ -1,10 +1,10 @@
 const { test, expect } = require('@playwright/test')
 const {
-  POST_SUCESS,
-  DELETE_SUCESS,
-  SEM_CARRINHO,
-  TOKEN_INVALID,
-  ESTOQUE_REABASTECIDO
+  POST_SUCCESS,
+  DELETE_SUCCESS,
+  NO_CART,
+  INVALID_TOKEN,
+  REPLENISHED_STOCK
 } = require('serverest/src/utils/constants')
 const { StatusCodes } = require('http-status-codes')
 
@@ -43,7 +43,7 @@ test.describe.parallel('Carts API', () => {
     const cart = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.CREATED)
-    expect(cart.message).toEqual(POST_SUCESS)
+    expect(cart.message).toEqual(POST_SUCCESS)
   })
 
   test('deletes an order successfully', async ({ request }) => {
@@ -56,7 +56,7 @@ test.describe.parallel('Carts API', () => {
     const cart = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(await cart.message).toEqual(DELETE_SUCESS)
+    expect(await cart.message).toEqual(DELETE_SUCCESS)
   })
 
   test('deletes an order without a cart', async ({ request }) => {
@@ -66,7 +66,7 @@ test.describe.parallel('Carts API', () => {
     const cart = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(cart.message).toEqual(SEM_CARRINHO)
+    expect(cart.message).toEqual(NO_CART)
   })
 
   test('fails to delete an order if authorization token is not provided', async ({ request }) => {
@@ -76,7 +76,7 @@ test.describe.parallel('Carts API', () => {
     const cart = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.UNAUTHORIZED)
-    expect(cart.message).toEqual(TOKEN_INVALID)
+    expect(cart.message).toEqual(INVALID_TOKEN)
   })
 
   test('cancels an order successfully', async ({ request }) => {
@@ -89,7 +89,7 @@ test.describe.parallel('Carts API', () => {
     const cart = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(cart.message).toEqual(`${DELETE_SUCESS}. ${ESTOQUE_REABASTECIDO}`)
+    expect(cart.message).toEqual(`${DELETE_SUCCESS}. ${REPLENISHED_STOCK}`)
   })
 
   test('cancels an order without a cart', async ({ request }) => {
@@ -99,7 +99,7 @@ test.describe.parallel('Carts API', () => {
     const cart = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(cart.message).toEqual(SEM_CARRINHO)
+    expect(cart.message).toEqual(NO_CART)
   })
 
   test('fails to cancel an order if authorization token is not provided', async ({ request }) => {
@@ -109,6 +109,6 @@ test.describe.parallel('Carts API', () => {
     const cart = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.UNAUTHORIZED)
-    expect(cart.message).toEqual(TOKEN_INVALID)
+    expect(cart.message).toEqual(INVALID_TOKEN)
   })
 })

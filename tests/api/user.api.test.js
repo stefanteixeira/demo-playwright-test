@@ -1,6 +1,12 @@
 const { test, expect } = require('@playwright/test')
 const { StatusCodes } = require('http-status-codes')
-const { POST_SUCESS, EMAIL_JA_USADO, USUARIO_NAO_ENCONTRADO, DELETE_SUCESS, PUT_SUCESS } = require('serverest/src/utils/constants')
+const { 
+  POST_SUCCESS,
+  EMAIL_ALREADY_USED,
+  USER_NOT_FOUND,
+  DELETE_SUCCESS,
+  PUT_SUCCESS
+} = require('serverest/src/utils/constants')
 const { getUserBody } = require('../../lib/helpers')
 
 const getUserId = async (request, body) => {
@@ -22,7 +28,7 @@ test.describe.parallel('User API', () => {
     const responseBody = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.CREATED)
-    expect(responseBody.message).toEqual(POST_SUCESS)
+    expect(responseBody.message).toEqual(POST_SUCCESS)
   })
 
   test('fails to create a user if it already exists', async ({ request }) => {
@@ -33,7 +39,7 @@ test.describe.parallel('User API', () => {
     const responseBody = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.BAD_REQUEST)
-    expect(responseBody.message).toEqual(EMAIL_JA_USADO)
+    expect(responseBody.message).toEqual(EMAIL_ALREADY_USED)
   })
 
   test('retrieves an existing user by its id', async ({ request }) => {
@@ -51,7 +57,7 @@ test.describe.parallel('User API', () => {
     const responseBody = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.BAD_REQUEST)
-    expect(responseBody.message).toEqual(USUARIO_NAO_ENCONTRADO)
+    expect(responseBody.message).toEqual(USER_NOT_FOUND)
   })
 
   test('deletes a user successfully', async ({ request }) => {
@@ -61,7 +67,7 @@ test.describe.parallel('User API', () => {
     const responseBody = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(responseBody.message).toEqual(DELETE_SUCESS)
+    expect(responseBody.message).toEqual(DELETE_SUCCESS)
   })
 
   test('edits a user successfully', async ({ request }) => {
@@ -72,7 +78,7 @@ test.describe.parallel('User API', () => {
     const responseBody = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.OK)
-    expect(responseBody.message).toEqual(PUT_SUCESS)
+    expect(responseBody.message).toEqual(PUT_SUCCESS)
   })
 
   test('creates a user by editing a non-existing one', async ({ request }) => {
@@ -82,6 +88,6 @@ test.describe.parallel('User API', () => {
     const responseBody = await response.json()
 
     expect(response.status()).toEqual(StatusCodes.CREATED)
-    expect(responseBody.message).toEqual(POST_SUCESS)
+    expect(responseBody.message).toEqual(POST_SUCCESS)
   })
 })
