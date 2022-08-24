@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test')
 
-const { createUser } = require('../../lib/helpers')
+const { createUser, getUserBody } = require('../../lib/helpers')
 const { testA11y } = require('../../lib/a11y')
 
 test.describe.parallel('Create user', () => {
@@ -16,7 +16,14 @@ test.describe.parallel('Create user', () => {
   })
 
   test('creates a user successfully', async ({ page }) => {
-    await createUser(page)
+    const user = getUserBody()
+    
+    await createUser(
+      page,
+      user.nome,
+      user.email,
+      user.password
+    )
 
     await page.waitForNavigation()
     await expect(page).toHaveURL('/admin/home')
