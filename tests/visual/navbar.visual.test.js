@@ -1,17 +1,24 @@
 const { test } = require('@playwright/test')
 const happoPlaywright = require('happo-playwright')
 
-const { openHomepage } = require('../../lib/helpers')
+const { openHomepage, getUserBody } = require('../../lib/helpers')
 
 test.describe('Navbar', () => {
   let context, page
 
   test.beforeAll(async ({ browser }) => {
+    const user = getUserBody()
+
     context = await browser.newContext()
     page = await context.newPage()
     await happoPlaywright.init(context)
     
-    await openHomepage(page)
+    await openHomepage(
+      page,
+      user.nome,
+      user.email,
+      user.password
+    )
   })
 
   test.afterAll(async () => {
