@@ -1210,11 +1210,6 @@ event-loop-stats@1.2.0:
   dependencies:
     nan "^2.14.0"
 
-expect-playwright@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/expect-playwright/-/expect-playwright-0.8.0.tgz#6d4ebe0bdbdd3c1693d880d97153b96a129ae4e8"
-  integrity sha512-+kn8561vHAY+dt+0gMqqj1oY+g5xWrsuGMk4QGxotT2WS545nVqqjs37z6hrYfIuucwqthzwJfCJUEYqixyljg==
-
 express-async-errors@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/express-async-errors/-/express-async-errors-3.1.1.tgz#6053236d61d21ddef4892d6bd1d736889fc9da41"

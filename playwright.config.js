@@ -1,7 +1,7 @@
-const { matchers } = require('expect-playwright')
 const { expect } = require('@playwright/test')
+const toMatchSchema = require('./lib/expect-schema')
 
-expect.extend(matchers)
+expect.extend(toMatchSchema)
 
 process.env.PLAYWRIGHT_EXPERIMENTAL_FEATURES = '1'
 

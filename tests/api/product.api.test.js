@@ -9,6 +9,7 @@ const {
   PRODUCT_NOT_FOUND
 } = require('serverest/src/utils/constants')
 const { getAuthToken, getProductBody, getProductId, getUserBody } = require('../../lib/helpers')
+const { PRODUCT_SCHEMA } = require('../../lib/schemas')
 
 test.describe.parallel('Product API', () => {
   let authorization
@@ -54,6 +55,14 @@ test.describe.parallel('Product API', () => {
     const response = await request.get(`/produtos/${_id}`)
 
     expect(response.status()).toEqual(StatusCodes.OK)
+  })
+
+  test('validates product schema', async ({ request }) => {
+    const _id = await getProductId(request, authorization, getProductBody())
+    const response = await request.get(`/produtos/${_id}`)
+    const product = await response.json()
+
+    expect(product).toMatchSchema(PRODUCT_SCHEMA)
   })
 
   test('fails to retrieve a product when it does not exist', async ({ request }) => {
