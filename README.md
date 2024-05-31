@@ -70,9 +70,3 @@ Test reports can be generated with [Allure reports](https://github.com/allure-fr
 ## CI
 
 The project uses [GitHub Actions](https://docs.github.com/en/actions) and tests are run automatically on PRs and on merge to `main` branch.
-
----
-
-## Contributing
-
-We have a [Kanban board](https://github.com/stefanteixeira/demo-playwright-test/projects/1) with a backlog of tasks to work on. If you are interested in contributing to the project, please reach out to @stefanteixeira to become a collaborator and get a task assigned to you.
